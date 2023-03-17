@@ -1,30 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
-import './Button'
-import Button from './Button';
+import TodoList from './TodoList'
+import { useState, useRef } from 'react';
+import uuidv4 from 'uuid/v4'
 
 function App() {
+  const [todos, setTodos] = useState([])
+  const todoNameRef = useRef()
+
+  function handleAddTodo(e) {
+    const name = todoNameRef.current.value
+    if (name === '') return
+    setTodos(prevTodos => { [...prevTodos, { id: uuidv4(), name: name, complete: 
+        false}]
+    })
+    todoNameRef.current.value = null
+
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          <code>Button test</code>
-          <Button />
+  <>
 
+  <TodoList todos={todos}/>
+  <input ref={todoNameRef} type="text"/>
+  <button onClick={handleAddTodo}>Add Todo</button>
+  <button>Clear Complete</button>
+  <div>0 left to do</div>
 
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  </>
+  )
 }
 
 export default App;
+
+
+/*
+
+
+
+
+  const btnOne = "one"
+  const btnTwo = "Secret"
+  const btnThree = "three"
+
+<div>
+          Button test
+          <Button btnName={btnOne}/>
+          Button test two
+          <Button btnName={btnTwo}/>
+          Button test three
+          <Button btnName={btnThree}/>
+        </div>*/
